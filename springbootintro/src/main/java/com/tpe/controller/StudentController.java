@@ -65,4 +65,40 @@ public class StudentController {
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
+    // Not : Get Student BY ID with RequestParam *******************************************
+    @GetMapping("/query") // http://localhost:8081/students/query?id=1&name=Ahmet  + GET
+    public ResponseEntity<Student> getStudent(@RequestParam("id") Long id){
+        Student student = studentService.findStudent(id);//200
+        return ResponseEntity.ok(student);
+    }
+
+    //Not : Get Student by ID with PathVariable *********************************************
+    @GetMapping("/{id}") //http://localhost:8081/students/1
+    public ResponseEntity<Student> getStudentByPath(@PathVariable("id") Long id){
+        Student student = studentService.findStudent(id);
+        return ResponseEntity.ok(student);
+    }
+
+    // !!! TRICK = 1 data alacaksam PathVariable ama birden fazla data alacaksam
+    //  RequestParam daha kullanisli
+
+    //Not: Delete Student  *******************************
+    @DeleteMapping("/{id}")//http://localhost:8081/students/1 + DELETE
+    public ResponseEntity<Map<String, String>> deleteStudent(@PathVariable("id") Long id){
+        studentService.deleteStudent(id);
+        Map<String,String> map = new HashMap<>();
+        map.put("message", "Student was deleted successfully");
+        map.put("status", "true");
+        //return new ResponseEntity<>(map, HttpStatus.OK);
+        return ResponseEntity.ok(map);
+    }
+
+    //Not: Update Student  *********************************
+    @PutMapping("/{id}")//http://loclahost:8081/students/1 + PUT + JSON //RequestParam ile de değişkenler gönderilebilir
+    // ama güvanlik ve adres satırının uzun olması sebebiyle tercih edilmez.
+    public ResponseEntity<String> updateStudent(@PathVariable Long id,
+                                                @RequestBody Student student){
+
+    }
+
 }
