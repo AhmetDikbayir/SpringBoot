@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +55,7 @@ public class StudentController {
     @GetMapping // http://localhost:8080/students + GET
     // 1 --> Student[] olur mu ? Olmaz List<> ile calismamam gerekiyor
     // 2 --> Response icinde Status codunu rahat setlemek icin ResponseEntity ..
+    @PreAuthorize("hasRole('ADMIN')")//ROLE_ADMIN
     public ResponseEntity<List<Student>> getAll(){
         List<Student> students = studentService.getAll();
         return ResponseEntity.ok(students); //200 status kodu ile Student nesnelerini client tarafına yönlendirdi.
@@ -121,7 +123,7 @@ public class StudentController {
     public ResponseEntity<Page<Student>> getAllWithPage(
             @RequestParam("page") int page, // kacinci sayfa gelecek
             @RequestParam("size") int size, //sayfa basi kaç nesne gelecek
-            @RequestParam("sort") String prop, // sırlaamda kullanılacak değişken (id, name vs...)
+            @RequestParam("sort") String prop, // sıralamada kullanılacak değişken (id, name vs...)
             @RequestParam("direction")Sort.Direction direction //siralama yönü (artan azalan)
             ){
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));

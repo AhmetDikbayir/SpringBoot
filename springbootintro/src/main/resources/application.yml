@@ -9,6 +9,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/sbootintro_db
     username: db_user
     password: db_password
+  security:
+    name: user
+    password: password
   jpa:
     hibernate:
       ddl-auto: update
