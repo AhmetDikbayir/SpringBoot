@@ -1,8 +1,7 @@
 package com.tpe.controller;
 
-import com.tpe.domain.User;
+
 import com.tpe.dto.UserRequest;
-import com.tpe.repository.UserRepository;
 import com.tpe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
